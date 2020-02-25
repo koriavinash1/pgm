@@ -18,34 +18,28 @@ class Graph(object):
 
         self.graph = {'node': [], 
                         'node_idx': [],
-                        'node_weightage': [],
-                        'edge': [], 
-                        'edge_weightage': []}
+                        'edge': []} 
 
 
-    def add_node(self, node, weightage=1):
+    def add_node(self, node):
         """
-            adds node in the graph also helps in 
-            assigning the weightage to each node
+            adds node in the graph 
 
             node: can be ['int', 'str']
-            weightage: ['int' or 'float']
 
         """
 
         if not node in self.graph['node']:
             node_idx = len(self.graph['node']) 
             self.graph['node'].append(node)
-            self.graph['node_weightage'].append(weightage)
             self.graph['node_idx'].append(node_idx)
             self.graph['edge'].append([])
-            self.graph['edge_weightage'].append([])
         else:
             node_idx = self.graph['node_idx'][np.where(np.array(self.graph['node']) == node)[0][0]]
         return node_idx
 
 
-    def add_edge(self, nodeA, nodeB, edge_weightage=1, nodeA_weightage=1, nodeB_weightage=1):
+    def add_edge(self, nodeA, nodeB):
         """
             adds a directed edge from nodeA to nodeB in 
             the graph also helps in assigning the weightage 
@@ -55,16 +49,12 @@ class Graph(object):
 
             nodeA: can be ['int', 'str']
             nodeB: can be ['int', 'str']
-            nodeA_weightage: ['int' or 'float']
-            nodeA_weightage: ['int' or 'float']
-            edge_weightage: ['int' or 'float']
         """
 
-        nodeA_idx = self.add_node(nodeA, nodeA_weightage)
-        nodeB_idx = self.add_node(nodeB, nodeB_weightage)
+        nodeA_idx = self.add_node(nodeA)
+        nodeB_idx = self.add_node(nodeB)
         
         self.graph['edge'][nodeA_idx].append(nodeB_idx)
-        self.graph['edge_weightage'][nodeA_idx].append(edge_weightage)
 
 
     def delete_edge(self, nodeA, nodeB):
@@ -83,7 +73,6 @@ class Graph(object):
 
         edge_idx  = np.where(np.array(self.graph['edge'][nodeA_idx]) == nodeB_idx)[0][0]
         self.graph['edge'][nodeA_idx].pop(edge_idx)
-        self.graph['edge_weightage'][nodeA_idx].pop(edge_idx)
 
 
     def delete_node(self, node):
@@ -112,7 +101,6 @@ class Graph(object):
             for j, eidx in enumerate(eidxs):
                 if eidx == node_idx:
                     self.graph['edge'][nidx].pop(j)
-                    self.graph['edge_weightage'][nidx].pop(j)
 
             for j, eidx in enumerate(eidxs):
                 if eidx > node_idx:
@@ -125,7 +113,5 @@ class Graph(object):
         self.graph['node'].pop(node_idx)
         self.graph['node_idx'].pop(node_idx)
         self.graph['edge'].pop(node_idx)
-        self.graph['edge_weightage'].pop(node_idx)
-        self.graph['node_weightage'].pop(node_idx)
         
 
