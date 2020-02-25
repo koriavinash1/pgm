@@ -3,7 +3,7 @@ import setuptools
 with open("README.md", "r") as fh:
     long_description = fh.read()
 setuptools.setup(
-     name='pgm',  
+     name='ppgm',  
      version='0.0.1',
      author="Avinash Kori",
      author_email="koriavinash1@gmail.com",
@@ -17,7 +17,7 @@ setuptools.setup(
 	 'numpy'
          ],
      classifiers=[
-         "Programming Language :: Python :: <=3.5",
+         "Programming Language :: Python :: 3.5",
          "License :: OSI Approved :: MIT License",
          "Operating System :: OS Independent",
      ],

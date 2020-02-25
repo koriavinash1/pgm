@@ -14,10 +14,10 @@ G.add_edges('A', 'B', edge_weightage=5)
 print (G.graph)
 
 ### direct edge addition
-G.add_edges('C', 'D', nodeA_weightage=5, nodeB_weightage=2, edge_weightage=10)
-G.add_edges('B', 'C')
-G.add_edges('A', 'C')
-G.add_edges('A', 'D')
+G.add_edge('C', 'D', nodeA_weightage=5, nodeB_weightage=2, edge_weightage=10)
+G.add_edge('B', 'C')
+G.add_edge('A', 'C')
+G.add_edge('A', 'D')
 print (G.graph)
 
 ### delete edge

@@ -45,7 +45,7 @@ class Graph(object):
         return node_idx
 
 
-    def add_edges(self, nodeA, nodeB, edge_weightage=1, nodeA_weightage=1, nodeB_weightage=1):
+    def add_edge(self, nodeA, nodeB, edge_weightage=1, nodeA_weightage=1, nodeB_weightage=1):
         """
             adds a directed edge from nodeA to nodeB in 
             the graph also helps in assigning the weightage 
