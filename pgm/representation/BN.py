@@ -1,6 +1,4 @@
 import numpy as np
-import pandas as pd
-from collections import defaultdict
 
 
 class Graph(object):
@@ -18,11 +16,11 @@ class Graph(object):
         if self.type not in ['list', 'matrix']:
             raise ValueError("Invalid type found, allowed values are: ['list', 'matrix']")
 
-        self.graph = {'node': defaultdict(list), 
-                        'node_idx': defaultdict(list),
-                        'node_weightage': defaultdict(list),
-                        'edge': defaultdict(list), 
-                        'edge_weightage': defaultdict(list)}
+        self.graph = {'node': [], 
+                        'node_idx': [],
+                        'node_weightage': [],
+                        'edge': [], 
+                        'edge_weightage': []}
 
 
     def add_node(self, node, weightage=1):
@@ -34,15 +32,16 @@ class Graph(object):
             weightage: ['int' or 'float']
 
         """
-        node_idx = len(self.graph['nodes'])
 
-        if not node in self.graph['nodes']:
+        if not node in self.graph['node']:
+            node_idx = len(self.graph['node']) 
             self.graph['node'].append(node)
             self.graph['node_weightage'].append(weightage)
             self.graph['node_idx'].append(node_idx)
             self.graph['edge'].append([])
             self.graph['edge_weightage'].append([])
-
+        else:
+            node_idx = self.graph['node_idx'][np.where(np.array(self.graph['node']) == node)[0][0]]
         return node_idx
 
 
@@ -79,10 +78,10 @@ class Graph(object):
             nodeB: can be ['int', 'str']
         """
         
-        nodeA_idx = self.graph['node_idx'][self.graph['node'] == nodeA]
-        nodeB_idx = self.graph['node_idx'][self.graph['node'] == nodeB]
+        nodeA_idx = self.graph['node_idx'][np.where(np.array(self.graph['node']) == nodeA)[0][0]]
+        nodeB_idx = self.graph['node_idx'][np.where(np.array(self.graph['node']) == nodeB)[0][0]]
 
-        edge_idx  = np.where(self.graph['edge'][nodeA_idx] == nodeB_idx)
+        edge_idx  = np.where(np.array(self.graph['edge'][nodeA_idx]) == nodeB_idx)[0][0]
         self.graph['edge'][nodeA_idx].pop(edge_idx)
         self.graph['edge_weightage'][nodeA_idx].pop(edge_idx)
 
@@ -106,12 +105,27 @@ class Graph(object):
             node: can be ['int', 'str']
         """
 
-        node_idx = np.where(self.graph['node_idx'][self.graph['node'] == node])
-        node_idxs, edge_idxs = np.where(self.graph['edge'] == node_idx)
+        node_idx = self.graph['node_idx'][np.where(np.array(self.graph['node']) == node)[0][0]]
 
-        for nidx, eidx in zip(node_idxs, edge_idxs):
-            self.graph['edge'][nidx].pop(eidx)
-            self.graph['edge_weightage'][nidx].pop(eidx)
+        for nidx, eidxs in enumerate(self.graph['edge']):
+        
+            for j, eidx in enumerate(eidxs):
+                if eidx == node_idx:
+                    self.graph['edge'][nidx].pop(j)
+                    self.graph['edge_weightage'][nidx].pop(j)
+
+            for j, eidx in enumerate(eidxs):
+                if eidx > node_idx:
+                    self.graph['edge'][nidx][j] =  self.graph['edge'][nidx][j] - 1
 
 
+        for j in self.graph['node_idx'][node_idx + 1:]:
+            self.graph['node_idx'][j] = j - 1
+
+        self.graph['node'].pop(node_idx)
+        self.graph['node_idx'].pop(node_idx)
+        self.graph['edge'].pop(node_idx)
+        self.graph['edge_weightage'].pop(node_idx)
+        self.graph['node_weightage'].pop(node_idx)
+        
 
