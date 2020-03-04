@@ -1,5 +1,21 @@
 import numpy as np
 
+class Distribution(object):
+    """
+    """
+    def __init__(self, variables={}):
+        """
+            class to generate a local distribution 
+            for a given variables
+
+            variables: {var: []; values: []}
+        """
+
+        self.variables = variables['var']
+            
+        
+
+
 
 class Graph(object):
     """
@@ -18,10 +34,11 @@ class Graph(object):
 
         self.graph = {'node': [], 
                         'node_idx': [],
-                        'edge': []} 
+                        'edge': [],
+                        'distribution': []} 
 
 
-    def add_node(self, node):
+    def add_node(self, node, distribution = None):
         """
             adds node in the graph 
 
@@ -34,12 +51,13 @@ class Graph(object):
             self.graph['node'].append(node)
             self.graph['node_idx'].append(node_idx)
             self.graph['edge'].append([])
+            self.graph['distribution'].append(distribution)
         else:
             node_idx = self.graph['node_idx'][np.where(np.array(self.graph['node']) == node)[0][0]]
         return node_idx
 
 
-    def add_edge(self, nodeA, nodeB):
+    def add_edge(self, nodeA, nodeB, nodeA_distribution=None, nodeB_distribution=None):
         """
             adds a directed edge from nodeA to nodeB in 
             the graph also helps in assigning the weightage 
@@ -51,8 +69,8 @@ class Graph(object):
             nodeB: can be ['int', 'str']
         """
 
-        nodeA_idx = self.add_node(nodeA)
-        nodeB_idx = self.add_node(nodeB)
+        nodeA_idx = self.add_node(nodeA, nodeA_distribution)
+        nodeB_idx = self.add_node(nodeB, nodeB_distribution)
         
         self.graph['edge'][nodeA_idx].append(nodeB_idx)
 
@@ -60,7 +78,6 @@ class Graph(object):
     def delete_edge(self, nodeA, nodeB):
         """
             deletes the directed edge from nodeA to nodeB
-
             function will remoce edge: nodeA -> nodeB
 
 
@@ -113,5 +130,9 @@ class Graph(object):
         self.graph['node'].pop(node_idx)
         self.graph['node_idx'].pop(node_idx)
         self.graph['edge'].pop(node_idx)
+        self.graph['distribution'].pop(node_idx)
         
-
+    def __len__(self):
+        """
+        """
+        return len(self.graph['node'])
