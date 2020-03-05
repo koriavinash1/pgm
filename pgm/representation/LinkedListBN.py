@@ -1,5 +1,6 @@
 import numpy as np
-
+from ..helpers.common import Node
+from ..helpers.search import dfs
 
 class Graph(object):
     """
@@ -22,17 +23,67 @@ class Graph(object):
             raise ValueError("Invalid type for root argument")
 
 
-    def add_node(self, node):
+    def add_node(self, node, parentNode):
         """
             adds node in the graph 
             node: can be ['int', 'str']
+            parentNode: can be ['int', 'str']
         """
+        
+        parentNode = dfs(self.rootNode, parentNode).searchNode
+        if parentNode == -1:
+            raise ValueError("parentNode not found")
 
-        if not node in self.graph['node']:  
-            node_idx = len(self.graph['node']) 
-            self.graph['node'].append(node)
-            self.graph['node_idx'].append(node_idx)
-            self.graph['edge'].append([])
-        else:
-            node_idx = self.graph['node_idx'][np.where(np.array(self.graph['node']) == node)[0][0]]
-        return node_idx
+        node = Node(node)
+        node.parents.append(parentNode)
+        parentNode.children.append(node)
+        
+    def add_edge(self, node1, node2):
+        """
+            adds edge netween node1 and node2
+            node1 -> node2
+            node1: can be ['int', 'str']
+            node2: can be ['int', 'str']
+        """
+        node1 = dfs(self.rootNode, node1).searchNode
+        node2 = dfs(self.rootNode, node2).searchNode
+        if (node1 == -1) or (node2 == -1):
+            raise ValueError("Node1 or Node2 not found")
+        node1.children.append(node2)
+        node2.parents.append(node1)
+
+    def delete_edge(self, node1, node2):
+        """
+            removes edge between node1 and node2
+            deletes node1->node2 edge
+
+            node1: can be ['int', 'str']
+            node2: can be ['int', 'str']
+        """
+        node1 = dfs(self.rootNode, node1).searchNode
+        node2 = dfs(self.rootNode, node2).searchNode
+        if (node1 == -1) or (node2 == -1):
+            raise ValueError("Node1 or Node2 not found")
+        
+        for i, child in enumerate(node1.children):
+            if child.name == node2.name:
+                node1.children.pop(i)
+                return
+
+    def delete_node(self, node):
+        """
+            removes all the edges and node from the graph
+
+            node: can be ['int', 'str']
+        """
+        node = dfs(self.rootNode, node).searchNode
+
+        if not (node == -1):
+            pass
+
+        pass
+
+    def delete_node(self, node1):
+        pass
+
+
