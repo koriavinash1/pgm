@@ -22,29 +22,32 @@ def proposalDistribution(sigma=2):
         as the mean keeps changing it's made an inner function argument
     """
     def QDistribution(param = 0):
-        return lambda x: (1/(((2*np.pi)**0.5) * sigma))*np.exp(((x-param)**2)/ (sigma**2))
-    return QDistribution
+        return lambda x: (1/(((2*np.pi)**0.5) * sigma))*np.exp(-((x-param)**2)/ (sigma**2))
+
+    return QDistribution, lambda x: np.random.normal(x, sigma)
 
 
 # ==========================================
+function = Gamma(theta=5.5, k=1)
+proposalDistribution, proposalSampler = proposalDistribution()
 
-function = Gamma(theta=1.15,k=1)
-MH = MH(function, 100, proposalDistribution())
-nMontecarlo = 100000
+MH = MH(function, 100, proposalDistribution, proposalSampler)
+nMontecarlo = 10500
 
-x = np.linspace(-10, 10, 500)
+x = np.linspace(-20, 20, 500)
 fx = function(x)
 
 for _ in range(nMontecarlo):
     next(MH.sampler())
 
-sampledvalues = np.array(MH.x_seq)
+sampledvalues = np.array(MH.x_seq)[500:]
 plt.plot(x, fx, 'b--', linewidth=2.0)
 plt.hist(sampledvalues, 500, density=True, facecolor='g', alpha=0.7, linewidth=0)
 plt.legend(['target pdf', 'sampled histogram'])
 plt.show()
 
 plt.plot(sampledvalues, linewidth=2.0)
+plt.ylim(-20.0, 20.0)
 plt.show()
 
 

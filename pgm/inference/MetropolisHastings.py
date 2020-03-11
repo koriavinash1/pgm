@@ -28,7 +28,7 @@ class MH(object):
         if accepted saves the value in x_seq list
     """
 
-    def __init__(self, function, burninT, proposalDistribution = proposalDistribution()):
+    def __init__(self, function, burninT, proposalDistribution = proposalDistribution(), proposalSampler = None):
         """
             function: <lambda or any function> complex distribution to 
                         sample points
@@ -41,6 +41,7 @@ class MH(object):
         self.burninT = burninT
         self.nonSymmetricP = True
         self.proposalDistribution = proposalDistribution
+        self.proposalSampler = proposalSampler
 
         self.check_proposalDistribution()
         self.x = np.random.rand()
@@ -86,7 +87,7 @@ class MH(object):
     def sampler(self):
         while True:
             for i in range(self.burninT):
-                x_next = np.random.normal(self.x, 2)
+                x_next = self.proposalSampler(self.x)
                 self.check_point(x_next)
             self.x_seq.append(self.x)
             yield self.x
