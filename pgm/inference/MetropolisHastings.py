@@ -37,13 +37,13 @@ class MH(object):
                         distribution
 
         """
-        self.fucntion = function
+        self.function = function
         self.burninT = burninT
         self.nonSymmetricP = True
         self.proposalDistribution = proposalDistribution
 
         self.check_proposalDistribution()
-        self.x = np.random.randn()
+        self.x = np.random.rand()
         self.x_seq = []
 
     
@@ -56,7 +56,6 @@ class MH(object):
         Q_xn = self.proposalDistribution(param = 0.5)(0)
         if np.abs(Q_x - Q_xn) < 1e-3:
             self.nonSymmetricP = False
-        pass
 
     def check_point(self, x_next):
         """
@@ -78,7 +77,8 @@ class MH(object):
             A_xn = min(1, (self.function(x_next)*Q_x)/(self.function(self.x)*Q_xnext))
         else:
             A_xn = min(1, self.function(x_next)/self.function(self.x))
-
+        
+        # print(A_xn, self.function(x_next), self.function(self.x), x_next, self.x)
         self.threshold = np.random.uniform(0,1)
         if A_xn > self.threshold:
             self.x = x_next
