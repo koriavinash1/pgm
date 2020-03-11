@@ -26,7 +26,7 @@ def proposalDistribution(sigma=2):
     return QDistribution
 
 
-
+# ==========================================
 
 function = Gamma(theta=1.15,k=1)
 MH = MH(function, 100, proposalDistribution())
@@ -42,6 +42,9 @@ sampledvalues = np.array(MH.x_seq)
 plt.plot(x, fx, 'b--', linewidth=2.0)
 plt.hist(sampledvalues, 500, density=True, facecolor='g', alpha=0.7, linewidth=0)
 plt.legend(['target pdf', 'sampled histogram'])
+plt.show()
+
+plt.plot(sampledvalues, linewidth=2.0)
 plt.show()
 
 
