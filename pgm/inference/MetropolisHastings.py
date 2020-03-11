@@ -50,8 +50,9 @@ class MH(object):
     
     def check_proposalDistribution(self):
         """
+            checks for stationarity and symmetiricity
+            
         """
-        
         # Symmetry check:
         Q_x = self.proposalDistribution(param = 0)(0.5)
         Q_xn = self.proposalDistribution(param = 0.5)(0)
@@ -85,6 +86,11 @@ class MH(object):
             self.x = x_next
 
     def sampler(self):
+        """
+            Sampler returns a value after burninT
+            
+            returns: iterator
+        """
         while True:
             for i in range(self.burninT):
                 x_next = self.proposalSampler(self.x)
