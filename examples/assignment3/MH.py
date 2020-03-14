@@ -15,7 +15,7 @@ def Gamma(theta, k = 1):
     return distribution
 
 
-def proposalDistribution(sigma=2):
+def proposalDistribution(sigma=0.1):
     """
         Describes example proposal distribution
         considers gaussion distribution with fixed sigma
@@ -29,18 +29,29 @@ def proposalDistribution(sigma=2):
 
 # ==========================================
 function = Gamma(theta=5.5, k=1)
-proposalDistribution, proposalSampler = proposalDistribution()
+sigma = [0.1, 1.0, 2.0]
+burnin = [2, 5, 10, 100, 200]
 
-MH = MH(function, 100, proposalDistribution, proposalSampler)
-nMontecarlo = 10500
+for sig in sigma:
+    for _burnin in burnin: 
+        proposalDist, proposalSamp = proposalDistribution(sig)
 
+        mh = MH(function, _burnin, proposalDist, proposalSamp)
+        nMontecarlo = 1000
+
+        for _ in range(nMontecarlo):
+            next(mh.sampler())
+
+        sampledvalues = np.array(mh.x_seq)
+        print("sig, burin, mean, bacc, cacc:  ", sig, _burnin, np.mean(sampledvalues), np.mean(mh.burninAcc), np.mean(mh.collectionAcc))
+
+
+"""
 x = np.linspace(-20, 20, 500)
 fx = function(x)
 
-for _ in range(nMontecarlo):
-    next(MH.sampler())
 
-sampledvalues = np.array(MH.x_seq)[500:]
+
 plt.plot(x, fx, 'b--', linewidth=2.0)
 plt.hist(sampledvalues, 500, density=True, facecolor='g', alpha=0.7, linewidth=0)
 plt.legend(['target pdf', 'sampled histogram'])
@@ -49,5 +60,5 @@ plt.show()
 plt.plot(sampledvalues, linewidth=2.0)
 plt.ylim(-20.0, 20.0)
 plt.show()
-
+"""
 

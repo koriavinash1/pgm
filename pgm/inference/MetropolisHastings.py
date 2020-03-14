@@ -46,7 +46,8 @@ class MH(object):
         self.check_proposalDistribution()
         self.x = np.random.rand()
         self.x_seq = []
-
+        self.burninAcc = []
+        self.collectionAcc = []
     
     def check_proposalDistribution(self):
         """
@@ -76,13 +77,13 @@ class MH(object):
             Q_x = self.proposalDistribution(param = self.x)(x_next)
             Q_xnext = self.proposalDistribution(param = x_next)(self.x)
 
-            A_xn = min(1, (self.function(x_next)*Q_x)/(self.function(self.x)*Q_xnext))
+            self.A_xn = min(1, (self.function(x_next)*Q_x)/(self.function(self.x)*Q_xnext))
         else:
-            A_xn = min(1, self.function(x_next)/self.function(self.x))
+            self.A_xn = min(1, self.function(x_next)/self.function(self.x))
         
         # print(A_xn, self.function(x_next), self.function(self.x), x_next, self.x)
         self.threshold = np.random.uniform(0,1)
-        if A_xn > self.threshold:
+        if self.A_xn > self.threshold:
             self.x = x_next
 
     def sampler(self):
@@ -95,6 +96,10 @@ class MH(object):
             for i in range(self.burninT):
                 x_next = self.proposalSampler(self.x)
                 self.check_point(x_next)
+                if i < self.burninT - 1:
+                    self.burninAcc.append(self.A_xn)
+                else:
+                    self.collectionAcc.append(self.A_xn)
             self.x_seq.append(self.x)
             yield self.x
 
