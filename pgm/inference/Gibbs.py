@@ -47,8 +47,11 @@ class GibbsSampler(object):
         p = self.getConditional(x_next, ii, jj)
         
         # sample xij
-        x_next[ii, jj] = x_next[ii, jj] if p > np.random.uniform(0,1) else 1 - x_next[ii, jj]
 
+        for _ in range(self.burninT):
+            xn = x_next[ii, jj] if p > np.random.uniform(0,1) else 1 - x_next[ii, jj]
+        
+        x_next[ii, jj] = xn
         self.visited[ii, jj] = 1.0
 
         x_next = self.localSampler(x_next, ii-1, jj)
@@ -91,11 +94,9 @@ class GibbsSampler(object):
         """
         """
         while True:
-            for i in range(self.burninT):
-                ii = np.random.randint(0, self.Xnodes)
-                jj = np.random.randint(0, self.Ynodes)
-                x_next = self.Proposal(ii, jj)
-                self.x = x_next
+            ii = np.random.randint(0, self.Xnodes)
+            jj = np.random.randint(0, self.Ynodes)
+            self.x = self.Proposal(ii, jj)
             self.x_seq.append(self.x)
             yield self.x
                 
@@ -108,19 +109,19 @@ if __name__ == '__main__':
                           (0,0): 1,
                           (1,0): 1,
                           (0,1): 1}
-    gs = GibbsSampler(local_distribution, 1, 16, 16)
+    gs = GibbsSampler(local_distribution, 10, 24, 24)
     
-    epochs = 1
+    epochs = 10
     for i in range(epochs):
         x = next(gs.sampler())
         plt.clf()
         plt.imshow(x)
         plt.show()
 
-    plt.clf()
-    plt.plot(gs.count_seq)
-    plt.xlabel("mixture progression")
-    plt.ylabel("count")
-    plt.title("Epoch: {}".format(i))
-    plt.show()
+        plt.clf()
+        plt.plot(gs.count_seq)
+        plt.xlabel("mixture progression")
+        plt.ylabel("count")
+        # plt.title("Epoch: {}".format(i))
+        plt.show()
 

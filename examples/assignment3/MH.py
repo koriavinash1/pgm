@@ -32,6 +32,7 @@ function = Gamma(theta=5.5, k=1)
 sigma = [0.1, 1.0, 2.0]
 burnin = [2, 5, 10, 100, 200]
 
+"""
 for sig in sigma:
     for _burnin in burnin: 
         proposalDist, proposalSamp = proposalDistribution(sig)
@@ -50,15 +51,26 @@ for sig in sigma:
 x = np.linspace(-20, 20, 500)
 fx = function(x)
 
+proposalDist, proposalSamp = proposalDistribution(sigma = 2.0)
+mh = MH(function, 100, proposalDist, proposalSamp)
+for _ in range(1000):
+    next(mh.sampler())
 
-
+sampledvalues = np.array(mh.x_seq)
 plt.plot(x, fx, 'b--', linewidth=2.0)
-plt.hist(sampledvalues, 500, density=True, facecolor='g', alpha=0.7, linewidth=0)
+
+hist = np.histogram(sampledvalues, bins=50)
+x = hist[1][1:]
+hist = hist[0]
+print(hist.shape, x.shape)
+hist = hist*np.max(fx)/np.max(hist)
+plt.bar(x, hist, color = 'g', width=1.8, alpha=0.7)
+# plt.hist(sampledvalues, 50, density=True, stacked=True, facecolor='g', alpha=0.7, linewidth=0)
 plt.legend(['target pdf', 'sampled histogram'])
 plt.show()
 
 plt.plot(sampledvalues, linewidth=2.0)
 plt.ylim(-20.0, 20.0)
 plt.show()
-"""
+
 
