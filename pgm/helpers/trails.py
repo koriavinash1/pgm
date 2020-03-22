@@ -5,9 +5,16 @@ from .search import dfs
 
 class findTrails(object):
     """
+       This class imlpemets a method to find trails
+       between nodeA and nodeB
     """
     def __init__(self, rootNode, nodeA, nodeB):
         """
+            rootNode: rootnode of a graph
+            nodeA: str:
+            nodeB: str:
+
+            trails from nodeA to nodeB (nodeA ~> nodeB)
         """
         nodeA = dfs(rootNode, nodeA).searchNode
         nodeB = dfs(rootNode, nodeB).searchNode
@@ -19,6 +26,7 @@ class findTrails(object):
 
     def findTrial(self, nodeA, nodeB, current):
         """
+            reccursive implementation for estimating all trails
         """
         current = current.copy()
         if nodeA == None:
@@ -36,6 +44,7 @@ class findTrails(object):
     
     def print(self):
         """
+            prints all trails in str format
         """
         trails = []
         for trail in self.trails:

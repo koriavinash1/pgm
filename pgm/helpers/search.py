@@ -3,8 +3,16 @@ from .common import Node
 
 class dfs(object):
     """
+        This class implements depth first search algorithm
+        is used to search for specific node given rootnode
     """
     def __init__(self, root, nodeName=None):
+        """
+            root: root node of the graph
+                  graph in linkedlist format
+            nodeName: str: node to search 
+                  in the graph
+        """
         self.root = root
         self.nodeName = nodeName
         self.visitedNode = []
@@ -13,6 +21,7 @@ class dfs(object):
      
     def search(self, root):
         """
+            reccursive function for searching node
         """
         self.visitedNode.append(root.name)
 
@@ -36,9 +45,15 @@ class dfs(object):
 
 class bfs(object):
     """
+        This class implements breath first search algorithm
+        is used to search for specific node given rootnode
     """
     def __init__(self, root, nodeName):
         """
+            root: root node of the graph
+                  graph in linkedlist format
+            nodeName: str: node to search 
+                  in the graph
         """
         self.root = root
         self.nodeName = nodeName
@@ -47,6 +62,7 @@ class bfs(object):
 
     def search(self, root):
         """
+           queue implemetation for bfs
         """
         queue = [root]
 
