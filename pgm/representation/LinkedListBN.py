@@ -14,9 +14,9 @@ class Graph(object):
         """
         self.nodesPresent = []
 
-        if isinstance(root) == Node():
+        if isinstance(root, Node):
             self.rootNode = root
-        elif isinstance(root) == str() or isinstance(root) == int():
+        elif isinstance(root, str) or isinstance(root, int):
             self.rootNode = Node()
             self.rootNode.name = root
         else:
@@ -29,15 +29,16 @@ class Graph(object):
             node: can be ['int', 'str']
             parentNode: can be ['int', 'str']
         """
-        
+        print(parentNode)        
         parentNode = dfs(self.rootNode, parentNode).searchNode
         if parentNode == -1:
             raise ValueError("parentNode not found")
-
+        print(parentNode.name)
         node = Node(node)
         node.parents.append(parentNode)
         parentNode.children.append(node)
-        
+        print(node.name, node.parents, parentNode.children)
+
     def add_edge(self, node1, node2):
         """
             adds edge netween node1 and node2
@@ -83,7 +84,16 @@ class Graph(object):
 
         pass
 
-    def delete_node(self, node1):
-        pass
+    def print(self, node):
+        if node == None:
+            return
+
+        queue = [node]
+        visited = []
+        for node in queue:
+            print("pnode: {}, children: {}, parents: []".format(node.name, [nd.name for nd in node.children], [nd.name for nd in node.parents]))
+            if not node.name in visited:
+                queue.extend(node.children)            
+                visited.append(node.name)
 
 

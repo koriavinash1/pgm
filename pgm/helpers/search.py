@@ -1,5 +1,5 @@
 import numpy as np
-
+from .common import Node
 
 class dfs(object):
     """
@@ -8,22 +8,25 @@ class dfs(object):
         self.root = root
         self.nodeName = nodeName
         self.visitedNode = []
-        self.searchNode = self.search(nodeName)
+        self.searchNode = self.search(self.root)
 
+     
     def search(self, root):
         """
         """
         self.visitedNode.append(root.name)
-        if len(root.children) == 0:
-            return -1
-        elif root.name == self.nodeName:
+
+        if root.name == self.nodeName:
             return root
+
+        elif len(root.children) == 0:
+            return -1
+
         else:
             for childNode in root.children:
                 if not childNode.name in self.visitedNode:
-                    node = self.search(childNode)
-                    if node.name == root.name:
-                        return node
+                    self.search(childNode)
+            return root 
 
 
 
@@ -49,3 +52,4 @@ class bfs(object):
 
             if not node.name in self.visitedNode:
                 queue.extend(node.children)
+                self.visitedNode.append(node.name)
