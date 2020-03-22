@@ -25,8 +25,12 @@ class dfs(object):
         else:
             for childNode in root.children:
                 if not childNode.name in self.visitedNode:
-                    self.search(childNode)
-            return root 
+                    node = self.search(childNode)
+
+                    if isinstance(node, Node):
+                        if node.name == self.nodeName:
+                            return node      
+            return -1 
 
 
 

@@ -29,15 +29,14 @@ class Graph(object):
             node: can be ['int', 'str']
             parentNode: can be ['int', 'str']
         """
-        print(parentNode)        
         parentNode = dfs(self.rootNode, parentNode).searchNode
         if parentNode == -1:
             raise ValueError("parentNode not found")
-        print(parentNode.name)
+
         node = Node(node)
         node.parents.append(parentNode)
         parentNode.children.append(node)
-        print(node.name, node.parents, parentNode.children)
+
 
     def add_edge(self, node1, node2):
         """
@@ -91,8 +90,11 @@ class Graph(object):
         queue = [node]
         visited = []
         for node in queue:
-            print("pnode: {}, children: {}, parents: []".format(node.name, [nd.name for nd in node.children], [nd.name for nd in node.parents]))
+
             if not node.name in visited:
+                print("pnode: {}, children: {}, parents: {}".format(node.name, 
+                                                        [nd.name for nd in node.children], 
+                                                        [nd.name for nd in node.parents]))
                 queue.extend(node.children)            
                 visited.append(node.name)
 

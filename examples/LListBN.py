@@ -8,11 +8,7 @@ rootNode = Node('rootNode')
 
 graph = Graph(rootNode)
 graph.add_node('node1', 'rootNode')
-graph.print(rootNode)
 graph.add_node('node2', 'rootNode')
-graph.print(rootNode)
 graph.add_node('node3', 'node1')
-graph.print(rootNode)
 graph.add_edge('node2', 'node3')
-
 graph.print(rootNode)
