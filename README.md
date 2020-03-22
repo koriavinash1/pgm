@@ -24,6 +24,11 @@ Probabilistic graphs: Representation, Learning, and Inference
 - [x] Additional
   - [x] Finding Active Trails
 - [ ] Learning 
+
+# Installation
+```
+pip install ppgm
+```
   
 # Usage
 Check examples to understand all routines
