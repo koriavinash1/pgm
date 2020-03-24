@@ -90,9 +90,17 @@ class Graph(object):
         node = dfs(self.rootNode, node).searchNode
 
         if not (node == -1):
-            pass
+            raise ValueError ("Node doesn't exist")
+        
+        for i, nbr in enumerate(node.nbrs):
+            for j, nnbr in enumerate(nbr.nbrs):
+                if nnbr.name == node.name:
+                    nbr.nbrs.pop(j)
+                    break
+            node.nbrs.pop(i)
 
-        pass
+        del node
+        return
 
 
     def print(self, node):

@@ -86,7 +86,7 @@ class Graph(object):
         node = dfs(self.rootNode, node).searchNode
 
         if not (node == -1):
-            pass
+            raise ValueError("Node doesn't exist")
         
         for  i, chnode in enumerate(node.children):
             for j, pnode in enumerate(chnode.parents):
