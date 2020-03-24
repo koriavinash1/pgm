@@ -1,6 +1,6 @@
 import numpy as np
 
-class Node(object):
+class BNNode(object):
     """
     """
     def __init__(self, name=None):
@@ -12,3 +12,12 @@ class Node(object):
         self.localDistribution = None
 
 
+class MNNode(object):
+    """
+    """
+    def __init__(self, name=None):
+        
+        self.name = name
+        self.nbrs  = []
+        self.values   = []
+        self.localDistribution = None
