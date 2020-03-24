@@ -1,5 +1,5 @@
 import numpy as np
-from ..helpers.common import BNNode as Node
+from ..helpers.common import Node
 from ..helpers.search import dfs
 
 class Graph(object):

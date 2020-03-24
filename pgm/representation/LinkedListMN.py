@@ -1,5 +1,5 @@
 import numpy as np
-from ..helpers.common import MNNode as Node
+from ..helpers.common import Node
 from ..helpers.search import dfs
 
 class Graph(object):
@@ -31,7 +31,7 @@ class Graph(object):
         """
         node = Node(node)
         for nbrNode in nbrNodes:
-            nbrNode = dfs(self.rootNode, nbrNode).searchNode
+            nbrNode = dfs(self.rootNode, nbrNode, type = 'MN').searchNode
             if nbrNode == -1:
                 raise ValueError("nbrNode not found")
             node.nbrs.append(nbrNode)
@@ -45,8 +45,8 @@ class Graph(object):
             node1: can be ['int', 'str']
             node2: can be ['int', 'str']
         """
-        node1 = dfs(self.rootNode, node1).searchNode
-        node2 = dfs(self.rootNode, node2).searchNode
+        node1 = dfs(self.rootNode, node1, type = 'MN').searchNode
+        node2 = dfs(self.rootNode, node2, type = 'MN').searchNode
         if (node1 == -1) or (node2 == -1):
             raise ValueError("Node1 or Node2 not found")
 
@@ -64,8 +64,8 @@ class Graph(object):
             node1: can be ['int', 'str']
             node2: can be ['int', 'str']
         """
-        node1 = dfs(self.rootNode, node1).searchNode
-        node2 = dfs(self.rootNode, node2).searchNode
+        node1 = dfs(self.rootNode, node1, type = 'MN').searchNode
+        node2 = dfs(self.rootNode, node2, type = 'MN').searchNode
         if (node1 == -1) or (node2 == -1):
             raise ValueError("Node1 or Node2 not found")
         
@@ -87,7 +87,7 @@ class Graph(object):
 
             node: can be ['int', 'str']
         """
-        node = dfs(self.rootNode, node).searchNode
+        node = dfs(self.rootNode, node, type = 'MN').searchNode
 
         if not (node == -1):
             raise ValueError ("Node doesn't exist")
@@ -114,5 +114,5 @@ class Graph(object):
             if not node.name in visited:
                 print("node: {}, nbrs: {}".format(node.name, 
                                                 [nd.name for nd in node.nbrs]))
-                queue.extend(node.children)            
+                queue.extend(node.nbrs)            
                 visited.append(node.name)
