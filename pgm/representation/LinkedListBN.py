@@ -68,7 +68,14 @@ class Graph(object):
         for i, child in enumerate(node1.children):
             if child.name == node2.name:
                 node1.children.pop(i)
-                return
+                break
+
+        for i, parent in enumerate(node2.parents):
+            if parent.name == node1.name:
+                node2.parents.pop(i)
+                break
+        return
+
 
     def delete_node(self, node):
         """
@@ -80,8 +87,17 @@ class Graph(object):
 
         if not (node == -1):
             pass
+        
+        for  i, chnode in enumerate(node.children):
+            for j, pnode in enumerate(chnode.parents):
+                if pnode.name == node.name:
+                    chnode.parents.pop(j)
+                    break
+            node.children.pop(i)
 
+        del node
         pass
+
 
     def print(self, node):
         if node == None:
