@@ -8,7 +8,7 @@ class findTrails(object):
        This class imlpemets a method to find trails
        between nodeA and nodeB
     """
-    def __init__(self, rootNode, nodeA, nodeB):
+    def __init__(self, rootNode, nodeA, nodeB, type='BN'):
         """
             rootNode: rootnode of a graph
             nodeA: str:
@@ -16,8 +16,10 @@ class findTrails(object):
 
             trails from nodeA to nodeB (nodeA ~> nodeB)
         """
-        nodeA = dfs(rootNode, nodeA).searchNode
-        nodeB = dfs(rootNode, nodeB).searchNode
+        self.type = type
+
+        nodeA = dfs(rootNode, nodeA, type = self.type).searchNode
+        nodeB = dfs(rootNode, nodeB, type = self.type).searchNode
         self.trails = []
         current = []
         current.append(nodeA)
@@ -35,12 +37,19 @@ class findTrails(object):
         if nodeA.name == nodeB.name:
             self.trails.append(current)
             return True
-
-        for child in nodeA.children:
-            current.append(child)
-            self.findTrial(child, nodeB, current)
-            current.pop()
-
+        
+        if self.type == 'BN':
+            for child in nodeA.children:
+                current.append(child)
+                self.findTrial(child, nodeB, current)
+                current.pop()
+        elif self.type == 'MN':
+            for child in nodeA.nbrs:
+                current.append(child)
+                self.findTrial(child, nodeB, current)
+                current.pop()
+        else:
+            raise ValueError("Unkown type variable")
     
     def print(self):
         """

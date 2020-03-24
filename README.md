@@ -60,7 +60,7 @@ from pgm.helpers.search import dfs
 
 root = rootNode
 searchNode = 'node4'
-node = dfs(root, searchNode)
+node = dfs(root, searchNode).searchNode
 ```
 
 ### GetTrails for above BN
@@ -79,7 +79,7 @@ graph.add_edge('node2', 'node3')
 from pgm.helpers.trails import findTrails
 
 ftrails = findTrails(rootNode, 'rootNode', 'node3')
-print(ftrails.print())
+ftrails.print()
 
 # =============== OUTPUT ===============
 [['rootNode', 'node1', 'node3'], ['rootNode', 'node2', 'node3']]
