@@ -1,5 +1,5 @@
 import numpy as np
-from ..helpers.common import Node
+from ..helpers.common import BNNode as Node
 from ..helpers.search import dfs
 
 class Graph(object):
@@ -92,7 +92,7 @@ class Graph(object):
         for node in queue:
 
             if not node.name in visited:
-                print("pnode: {}, children: {}, parents: {}".format(node.name, 
+                print("node: {}, children: {}, parents: {}".format(node.name, 
                                                         [nd.name for nd in node.children], 
                                                         [nd.name for nd in node.parents]))
                 queue.extend(node.children)            
