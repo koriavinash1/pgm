@@ -16,6 +16,7 @@ Probabilistic graphs: Representation, Learning, and Inference
   - [x] Gibbs Sampling on 2d grid
   - [ ] Generalized Gibbs Sampling
   - [ ] Message Parsing and BP
+  - [ ] Loopy BP
   - [ ] VE
   - [ ] Causal Interventions
 - [x] search methods
@@ -23,6 +24,8 @@ Probabilistic graphs: Representation, Learning, and Inference
   - [x] BFS
 - [x] Additional
   - [x] Finding Active Trails
+  - [ ] Max clique size and clique node
+  - [ ] Calculate tree-width
 - [ ] Learning 
 
 # Installation
