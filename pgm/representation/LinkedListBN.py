@@ -3,14 +3,14 @@ from ..helpers.common import Node
 from ..helpers.search import dfs
 
 class Graph(object):
-    """
-        Adjancency list and Adjancency matrix 
-        representation of the graph based on the input 
+    r""" Adjancency list and Adjancency matrix 
+    representation of the graph based on the input 
     """
     def __init__(self, root):
-        """
-            root: node<object> or str
-                if str it'll generate node and the following graph
+        r"""
+
+        root: node<object> or str
+            if str it'll generate node and the following graph
         """
         self.nodesPresent = []
 
@@ -24,44 +24,57 @@ class Graph(object):
 
 
     def add_node(self, node, parentNode):
+        r""" adds node in the graph 
+        
+        node: can be ['int', 'str'] or Node object
+        parentNode: can be ['int', 'str'] or Node object
         """
-            adds node in the graph 
-            node: can be ['int', 'str']
-            parentNode: can be ['int', 'str']
-        """
-        parentNode = dfs(self.rootNode, parentNode).searchNode
+
+        if not isinstance(node1, parentNode):
+            parentNode = dfs(self.rootNode, parentNode).searchNode
+
         if parentNode == -1:
             raise ValueError("parentNode not found")
 
-        node = Node(node)
+        if not isinstance(node1, node):
+            node = Node(node)
         node.parents.append(parentNode)
         parentNode.children.append(node)
 
 
     def add_edge(self, node1, node2):
-        """
-            adds edge netween node1 and node2
+        r"""adds edge netween node1 and node2
             node1 -> node2
-            node1: can be ['int', 'str']
-            node2: can be ['int', 'str']
+            
+        node1: can be ['int', 'str'] or Node object
+        node2: can be ['int', 'str'] or Node object
         """
-        node1 = dfs(self.rootNode, node1).searchNode
-        node2 = dfs(self.rootNode, node2).searchNode
+        if not isinstance(node1, Node):
+            node1 = dfs(self.rootNode, node1).searchNode
+
+        if not isinstance(node2, Node):
+            node2 = dfs(self.rootNode, node2).searchNode
+        
         if (node1 == -1) or (node2 == -1):
             raise ValueError("Node1 or Node2 not found")
+        
         node1.children.append(node2)
         node2.parents.append(node1)
 
     def delete_edge(self, node1, node2):
-        """
-            removes edge between node1 and node2
-            deletes node1->node2 edge
+        r"""removes edge between node1 and node2
+            deletes directed edge from node1->node2
 
-            node1: can be ['int', 'str']
-            node2: can be ['int', 'str']
+        node1: can be ['int', 'str'] or Node object
+        node2: can be ['int', 'str'] or Node object
         """
-        node1 = dfs(self.rootNode, node1).searchNode
-        node2 = dfs(self.rootNode, node2).searchNode
+
+        if not isinstance(node1, Node):
+            node1 = dfs(self.rootNode, node1).searchNode
+
+        if not isinstance(node2, Node):
+            node2 = dfs(self.rootNode, node2).searchNode
+
         if (node1 == -1) or (node2 == -1):
             raise ValueError("Node1 or Node2 not found")
         
@@ -78,12 +91,13 @@ class Graph(object):
 
 
     def delete_node(self, node):
-        """
-            removes all the edges and node from the graph
+        r""" removes all the edges and node from the graph
 
-            node: can be ['int', 'str']
+        node: can be ['int', 'str'] or Node object
         """
-        node = dfs(self.rootNode, node).searchNode
+
+        if not isinstance(node1, Node):
+            node1 = dfs(self.rootNode, node1).searchNode
 
         if not (node == -1):
             raise ValueError("Node doesn't exist")
@@ -99,19 +113,37 @@ class Graph(object):
         pass
 
 
+    def calculate_conditional(self, nodes, values):
+        r""" calculates conditional distribution fixing the
+        values of given nodes
+
+        nodes: can be list of ['int', 'str' or Node object]
+        values: [node_value in same order]
+        """
+
+        raise NotImplementedError()
+
+
+    def calculate_marginals(self, nodes):
+        r""" removes the node and restimates marginals
+
+        nodes: can be list of ['int', 'str' or Node object]
+        """
+
+        raise NotImplementedError()
+        
+
     def print(self, node):
         if node == None:
             return
 
         queue = [node]
         visited = []
-        for node in queue:
 
+        for node in queue:
             if not node.name in visited:
                 print("node: {}, children: {}, parents: {}".format(node.name, 
-                                                        [nd.name for nd in node.children], 
-                                                        [nd.name for nd in node.parents]))
+                                            [nd.name for nd in node.children], 
+                                            [nd.name for nd in node.parents]))
                 queue.extend(node.children)            
                 visited.append(node.name)
-
-
