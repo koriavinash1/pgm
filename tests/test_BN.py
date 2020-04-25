@@ -32,9 +32,9 @@ class TestGraphMethods(unittest.TestCase):
         graph.add_node('node1', 'rootNode')
         graph.add_node('node2', 'rootNode')
         graph.add_edge('node2', 'node1')
-        node2 = dfs(rootNode, 'node2').searchNode
-        self.assertEqual(node2.name, 'node2')
-        self.assertEqual(len(node2.parents), 2)
+        node1 = dfs(rootNode, 'node1').searchNode
+        self.assertEqual(node1.name, 'node1')
+        self.assertEqual(len(node1.parents), 2)
 
 if __name__ == '__main__':
     unittest.main()
