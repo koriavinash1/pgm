@@ -6,35 +6,35 @@
 
 Probabilistic graphs: Representation, Learning, and Inference
 
-# Features
+## Features
 
-- [x] Representation
-  - [x] Bayesian Network Representation
-  - [x] Linked List BN Representation
-  - [x] Linked List MN Representation
-- [x] Inference
-  - [x] Metropolis-Hastings algorithm
-  - [x] Gibbs Sampling on 2d grid
-  - [ ] Generalized Gibbs Sampling
-  - [ ] Message Parsing and BP
-  - [ ] Loopy BP
-  - [ ] VE
-  - [ ] Causal Interventions
-- [x] search methods
-  - [x] DFS
-  - [x] BFS
-- [x] Additional
-  - [x] Finding Active Trails
-  - [ ] Max clique size and clique node
-  - [ ] Calculate tree-width
-- [ ] Learning 
+-[x] Representation
+  -[x] Bayesian Network Representation
+  -[x] Linked List BN Representation
+  -[x] Linked List MN Representation
+-[x] Inference
+  -[x] Metropolis-Hastings algorithm
+  -[x] Gibbs Sampling on 2d grid
+  -[ ] Generalized Gibbs Sampling
+  -[ ] Message Parsing and BP
+  -[ ] Loopy BP
+  -[ ] VE
+  -[ ] Causal Interventions
+-[x] search methods
+  -[x] DFS
+  -[x] BFS
+-[x] Additional
+  -[x] Finding Active Trails
+  -[ ] Max clique size and clique node
+  -[ ] Calculate tree-width
+-[ ] Learning 
 
-# Installation
+## Installation
 ```
 pip install ppgm
 ```
   
-# Usage
+## Usage
 Check examples to understand all routines
 
 ### LinkedList BN representation
@@ -131,5 +131,5 @@ plt.legend(['target pdf', 'sampled histogram'])
 plt.show()
 ```
 ![ResultMH](examples/assignment3/hist_target.png)
-# Contact
+## Contact
 - Avinash Kori (koriavinash1@gmail.com)
