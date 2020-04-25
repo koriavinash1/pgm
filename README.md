@@ -1,5 +1,4 @@
 # PGM
-[![Codacy Badge](https://api.codacy.com/project/badge/Grade/77ace30f1e854d9bb1c6eead7095a90d)](https://app.codacy.com/manual/koriavinash1/pgm?utm_source=github.com&utm_medium=referral&utm_content=koriavinash1/pgm&utm_campaign=Badge_Grade_Dashboard)
 [![Build Status](https://travis-ci.org/koriavinash1/pgm.svg?branch=master)](https://travis-ci.org/koriavinash1/pgm)
 [![PyPI version](https://badge.fury.io/py/ppgm.svg)](https://badge.fury.io/py/ppgm)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
@@ -8,26 +7,26 @@ Probabilistic graphs: Representation, Learning, and Inference
 
 ## Features
 
--[x] Representation
-  -[x] Bayesian Network Representation
-  -[x] Linked List BN Representation
-  -[x] Linked List MN Representation
--[x] Inference
-  -[x] Metropolis-Hastings algorithm
-  -[x] Gibbs Sampling on 2d grid
-  -[ ] Generalized Gibbs Sampling
-  -[ ] Message Parsing and BP
-  -[ ] Loopy BP
-  -[ ] VE
-  -[ ] Causal Interventions
--[x] search methods
-  -[x] DFS
-  -[x] BFS
--[x] Additional
-  -[x] Finding Active Trails
-  -[ ] Max clique size and clique node
-  -[ ] Calculate tree-width
--[ ] Learning 
+- [x] Representation
+  - [x] Bayesian Network Representation
+  - [x] Linked List BN Representation
+  - [x] Linked List MN Representation
+- [x] Inference
+  - [x] Metropolis-Hastings algorithm
+  - [x] Gibbs Sampling on 2d grid
+  - [ ] Generalized Gibbs Sampling
+  - [ ] Message Parsing and BP
+  - [ ] Loopy BP
+  - [ ] VE
+  - [ ] Causal Interventions
+- [x] search methods
+  - [x] DFS
+  - [x] BFS
+- [x] Additional
+  - [x] Finding Active Trails
+  - [ ] Max clique size and clique node
+  - [ ] Calculate tree-width
+- [ ] Learning 
 
 ## Installation
 ```
