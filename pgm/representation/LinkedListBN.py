@@ -97,7 +97,7 @@ class Graph(object):
         """
 
         if not isinstance(node, Node):
-            node1 = dfs(self.rootNode, node1).searchNode
+            node = dfs(self.rootNode, node).searchNode
 
         if not (node == -1):
             raise ValueError("Node doesn't exist")
