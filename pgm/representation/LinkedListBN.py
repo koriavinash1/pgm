@@ -100,7 +100,7 @@ class Graph(object):
         if not isinstance(node, Node):
             node = dfs(self.rootNode, node).searchNode
 
-        if not (node == -1):
+        if (node == -1):
             raise ValueError("Node doesn't exist")
         
         for  i, chnode in enumerate(node.children):
@@ -113,6 +113,18 @@ class Graph(object):
         del node
         pass
 
+
+    def get_node(self, node):
+        r""" search and returns the node
+
+        node: can be ['int', 'str']
+        """
+        node = dfs(self.rootNode, node).searchNode
+
+        if (node == -1):
+            raise ValueError("Node doesn't exist")
+
+        return node 
 
     def calculate_conditional(self, nodes, values):
         r""" calculates conditional distribution fixing the
