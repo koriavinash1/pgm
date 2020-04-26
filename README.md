@@ -11,6 +11,9 @@ Probabilistic graphs: Representation, Learning, and Inference
   - [x] Bayesian Network Representation
   - [x] Linked List BN Representation
   - [x] Linked List MN Representation
+  - [ ] Conditional Estimation
+  - [ ] Marginal Estimation
+  - [ ] Joint Estimation
 - [x] Inference
   - [x] Metropolis-Hastings algorithm
   - [x] Gibbs Sampling on 2d grid
