@@ -95,7 +95,7 @@ class Node(object):
 
         if probabilities:
             nprobabilities = len(probabilities.keys())*len(probabilities.values()[0].keys())
-            assert nprobabilities == np.prod(parent_nvalues)*len(self.values),\
+            assert nprobabilities == np.prod(factor_nvalues)*len(self.values),\
                          "Incomplete distribution Provided"
             self.localDistribution = probabilities
 
