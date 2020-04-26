@@ -30,13 +30,13 @@ class Graph(object):
         parentNode: can be ['int', 'str'] or Node object
         """
 
-        if not isinstance(Node, parentNode):
+        if not isinstance(parentNode, Node):
             parentNode = dfs(self.rootNode, parentNode).searchNode
 
         if parentNode == -1:
             raise ValueError("parentNode not found")
 
-        if not isinstance(Node, node):
+        if not isinstance(node, Node):
             node = Node(node)
         node.parents.append(parentNode)
         parentNode.children.append(node)
@@ -60,6 +60,7 @@ class Graph(object):
         
         node1.children.append(node2)
         node2.parents.append(node1)
+
 
     def delete_edge(self, node1, node2):
         r"""removes edge between node1 and node2

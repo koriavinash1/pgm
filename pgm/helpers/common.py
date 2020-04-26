@@ -61,7 +61,6 @@ class Node(object):
                     proability = raw_input("Parent Names: {} = Values: {}".format(pnodes, pvalues))
                     self.localDistribution[(pnodes, pvalues)] = {self.values: proability} 
 
-        return pass
 
 
     def calculate_conditional(self):
