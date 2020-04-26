@@ -30,13 +30,13 @@ class Graph(object):
         parentNode: can be ['int', 'str'] or Node object
         """
 
-        if not isinstance(node1, parentNode):
+        if not isinstance(Node, parentNode):
             parentNode = dfs(self.rootNode, parentNode).searchNode
 
         if parentNode == -1:
             raise ValueError("parentNode not found")
 
-        if not isinstance(node1, node):
+        if not isinstance(Node, node):
             node = Node(node)
         node.parents.append(parentNode)
         parentNode.children.append(node)
@@ -96,7 +96,7 @@ class Graph(object):
         node: can be ['int', 'str'] or Node object
         """
 
-        if not isinstance(node1, Node):
+        if not isinstance(node, Node):
             node1 = dfs(self.rootNode, node1).searchNode
 
         if not (node == -1):
