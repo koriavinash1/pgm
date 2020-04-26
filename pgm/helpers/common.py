@@ -11,6 +11,7 @@ class Node(object):
     def __init__(self, name=None):
             
         self.name = name
+        self.type = 'BN'
         
         # present only for BN
         self.parents  = []
@@ -22,26 +23,25 @@ class Node(object):
         self.localDistribution = None
 
 
-    def check(self, string, type, args=[]):
+
+    def check(self, string, args=[]):
         r""" Checks for sum of the distribution"""
-        
+
         temp = {}
         for value in self.values:
             probability = input(string.format(self.name, value, *args))
             temp[value] = float(probability)
 
-        if type == 'BN':
+        if self.type == 'BN':
             if not np.sum(list(temp.values())) == 1.0 :
                 print ("Improper Probability distribution sum != 1. Re-enter the probability values")
-                temp = self.check(string, type, args)
+                temp = self.check(string, args)
         return temp
 
 
-    def set_distribution(self, probabilities = None, type='BN'):
+    def set_distribution_BN(self, probabilities = None):
         r""" sets a local probabilities distribution
         
-        type: ['BN', 'MN']
-
         probabilities: json, None
             if None: Interactive mode will be triggered
             json: {((pnode_names), (pnode_values)): {nvalue: probability}}
@@ -58,7 +58,7 @@ class Node(object):
             self.localDistribution = {} 
 
             if len(self.parents) == 0:
-                self.localDistribution = self.check("CurrentNode: {} | nodeValue: {} | Probability= ", type)
+                self.localDistribution = self.check("CurrentNode: {} | nodeValue: {} | Probability= ")
               
             parent_names = [node.name for node in self.parents]
             parent_values = []
@@ -79,7 +79,65 @@ class Node(object):
 
             _value_tuple(0, 0, ())
 
-            print (parent_names, parent_values)
             for pnodes in parent_names:
                 for pvalues in parent_values:
-                    self.localDistribution[(pnodes, pvalues)] = self.check("CurrentNode: {} | nodeValue: {} || ParentNodes: {} = ParentValues: {} | Probability = ", type, [pnodes, pvalues])
+                    self.localDistribution[(pnodes, pvalues)] = self.check("CurrentNode: {} | nodeValue: {} || ParentNodes: {} = ParentValues: {} | Probability = ", [pnodes, pvalues])
+
+
+    def set_distribution_MN(self, probabilities = None):
+        r""" sets a local probabilities distribution
+        
+        probabilities: json, None
+            if None: Interactive mode will be triggered
+            json: {((pnode_names), (pnode_values)): {nvalue: probability}}
+        """
+        factor_nvalues = [len(node.values) for node in self.nbrs]
+
+        if probabilities:
+            nprobabilities = len(probabilities.keys())*len(probabilities.values()[0].keys())
+            assert nprobabilities == np.prod(parent_nvalues)*len(self.values),\
+                         "Incomplete distribution Provided"
+            self.localDistribution = probabilities
+
+        else:
+            self.localDistribution = {} 
+
+            if len(self.nbrs) == 0:
+                self.localDistribution = self.check("CurrentNode: {} | nodeValue: {} | Probability= ")
+              
+            nbr_names = [node.name for node in self.nbrs]
+            nbr_values = []
+
+            def _value_tuple(i, j, tuple):
+                if i >= len(self.nbrs):
+                    return tuple
+
+                pnode = self.nbrs[i]
+                for jj in range(j, len(pnode.values)):
+                    tuple = tuple + (pnode.values[jj], )
+                    tuple = _value_tuple(i+1, j+jj, tuple)
+                    nbr_values.append(tuple)
+                    tuple = ()
+
+
+                return tuple
+
+            _value_tuple(0, 0, ())
+
+            for pnodes in nbr_names:
+                for pvalues in nbr_values:
+                    self.localDistribution[(pnodes, pvalues)] = self.check("CurrentNode: {} | nodeValue: {} || NbrNodes: {} = NbrValues: {} | Probability = ", [pnodes, pvalues])
+
+
+    def set_distribution(self, probabilities = None):
+        r""" sets a local probabilities distribution
+        
+        probabilities: json, None
+            if None: Interactive mode will be triggered
+            json: {((pnode_names), (pnode_values)): {nvalue: probability}}
+        """
+
+        if self.type == 'MN':
+            self.set_distribution_MN(probabilities)
+        else:
+            self.set_distribution_BN(probabilities)

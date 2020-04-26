@@ -19,6 +19,7 @@ class Graph(object):
         elif isinstance(root, str) or isinstance(root, int):
             self.rootNode = Node()
             self.rootNode.name = root
+            self.rootNode.type = 'MN'
         else:
             raise ValueError("Invalid type for root argument")
 
@@ -30,6 +31,7 @@ class Graph(object):
             nbrNodes: can be list(['int' or 'str'])
         """
         node = Node(node)
+        node.type = 'MN'
         for nbrNode in nbrNodes:
             nbrNode = dfs(self.rootNode, nbrNode, type = 'MN').searchNode
             if nbrNode == -1:
@@ -101,6 +103,39 @@ class Graph(object):
 
         del node
         return
+
+
+    def get_node(self, node):
+        r""" search and returns the node
+
+        node: can be ['int', 'str']
+        """
+        node = dfs(self.rootNode, node, type = 'MN').searchNode
+
+        if (node == -1):
+            raise ValueError("Node doesn't exist")
+
+        return node 
+
+
+    def calculate_conditional(self, nodes, values):
+        r""" calculates conditional distribution fixing the
+        values of given nodes
+
+        nodes: can be list of ['int', 'str' or Node object]
+        values: [node_value in same order]
+        """
+
+        raise NotImplementedError()
+
+
+    def calculate_marginals(self, nodes):
+        r""" removes the node and restimates marginals
+
+        nodes: can be list of ['int', 'str' or Node object]
+        """
+
+        raise NotImplementedError()
 
 
     def print(self, node):
