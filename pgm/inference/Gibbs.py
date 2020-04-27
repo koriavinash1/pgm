@@ -125,3 +125,27 @@ if __name__ == '__main__':
         # plt.title("Epoch: {}".format(i))
         plt.show()
 
+
+def stats(self, x):
+    r"""
+
+    """
+    min_val = 0
+    max_val = tfp.stats.percentile(
+                x, 90, axis=None, 
+                preserve_gradients=False, 
+                name=None
+                )
+    median_val = tfp.stats.percentile(
+                x, 50, axis=None, 
+                preserve_gradients=False, 
+                name=None
+                )
+    x = tf.clip_by_value(
+        x, 
+        min_val, 
+        max_val, 
+        name=None
+        )
+    mean, var = tf.nn.moments(x, axes=None)
+    return x, median, mean, var
