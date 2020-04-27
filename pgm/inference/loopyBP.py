@@ -4,63 +4,48 @@ import numpy as np
 class loopyBPSegmentation(object):
     """
     """
-    def __init__(self, edge_potential, node_potential, input_image):
+    def __init__(self, edge_potential, node_potential, input_image, noisy_image):
         """
         """
         self.edge_potential = edge_potential
         self.node_potential = node_potential
+
+        # noise free
         self.input_image    = input_image
+        self.noisy_image    = noisy_image
 
-        
-    def getConditional(self, x, i, j):
+    def mu(self, ii, jj, visited, mu):
         """
         """
-        nbr_pairs = []
-        op = [(0, 1), (0, -1), (-1, 0), (1, 0)]
-        for ii, jj in op:
-            try:
-                nbr_pairs.append((x[i,j], x[i+ii, j+jj]))
-            except:
-                pass
-        nr = np.prod([self.local_distribution[nbr_pair] \
-                                for nbr_pair in nbr_pairs])
-        dr = nr + np.prod([self.local_distribution[(\
-                        abs(1-nbr_pair[0]), nbr_pair[1])] \
-                            for nbr_pair in nbr_pairs])
-        return nr*1./dr
-
-    def mu(self, x, y, ii, jj, visited, mu):
-        """
-        """
-        assert x.shape == y.shape == visited.shape
-        if (ii  >= x.shape[0]) or\
-            (jj >= x.shape[1]) or \
+        assert self.noisy_image.shape == self.input_image.shape == visited.shape
+        if (ii  >= self.noisy_image.shape[0]) or\
+            (jj >= self.noisy_image.shape[1]) or \
             (ii < 0) or (jj  < 0) or visited[ii,jj]:
             return mu, visited
         
         # get p based on conditional
-        mu[ii, jj] = self.edge_potential[x[ii+1, jj], x[ii, jj]] *\
-                     self.edge_potential[x[ii, jj], x[ii, jj+1]] *\
-                     self.node_potential[x[ii, jj], y[ii, jj]]
+        mu[ii, jj] = self.edge_potential[self.noisy_image[ii+1, jj], self.noisy_image[ii, jj]] *\
+                     self.edge_potential[self.noisy_image[ii, jj], self.noisy_image[ii, jj+1]] *\
+                     self.node_potential[self.noisy_image[ii, jj], self.input_image[ii, jj]]
         
         visited[ii, jj] = 1.0
 
-        mu, visited = self.mu(x, y, ii-1, jj, visited, mu)
-        mu, visited = self.mu(x, y, ii, jj-1, visited, mu)
-        mu, visited = self.mu(x, y, ii+1, jj, visited, mu)
-        mu, visited = self.mu(x, y, ii, jj+1, visited, mu)
+        mu, visited = self.mu(ii-1, jj, visited, mu)
+        mu, visited = self.mu(ii, jj-1, visited, mu)
+        mu, visited = self.mu(ii+1, jj, visited, mu)
+        mu, visited = self.mu(ii, jj+1, visited, mu)
         return mu, visited
 
 
-    def message(self, x, ii, jj, message_matrix, type='f'):
+    def message(self, ii, jj, message_matrix, type='f'):
         r"""
-
+        m_{ii->jj}
         x : {0, 1} random matrix
         ii: tuple(x,y)
         jj: tuple(x,y) 
         """
-        if (jj[0]  >= x.shape[0]) or (ii[1] >= x.shape[1]) or \
-           (ii[0]  >= x.shape[0]) or (jj[1] >= x.shape[1]) or \
+        if (jj[0]  >= self.noisy_image.shape[0]) or (ii[1] >= self.noisy_image.shape[1]) or \
+           (ii[0]  >= self.noisy_image.shape[0]) or (jj[1] >= self.noisy_image.shape[1]) or \
            (ii[0] < 0) or (jj[0]  < 0) or (ii[1] < 0) or (jj[1]  < 0):
             return 1.0
 
@@ -79,64 +64,77 @@ class loopyBPSegmentation(object):
 
         message = np.array([1., 1.])
         for nbr in nbrs:
-            message = message*self.message(x, nbr, ii)
+            message_matrix[ii[0], ii[1], idx, :] = message*self.message(nbr, ii, message_matrix)
 
         if type == 'f':
-            message0 = message[0]*self.edge_potential[0, 0] + message[1]*self.edge_potential[1, 0]
-            message1 = message[0]*self.edge_potential[0, 1] + message[1]*self.edge_potential[1, 1]
-            message  = np.array([message0, message1])
+            message0 = self.node_potential[self.noisy_image[jj[0], jj[1]], self.input_image[jj[0], jj[1]]]*\
+                    (message[0]*self.edge_potential[0, 0] + message[1]*self.edge_potential[1, 0])
+            message1 = self.node_potential[self.noisy_image[jj[0], jj[1]], self.input_image[jj[0], jj[1]]]*\
+                    (message[0]*self.edge_potential[0, 1] + message[1]*self.edge_potential[1, 1])
+            message_matrix[ii[0], ii[1], idx, :]  = np.array([message0, message1])
+            print (message_matrix[ii[0], ii[1], idx, :])
 
-        return message
+        return message_matrix[ii[0], ii[1], idx, :]
 
-    def LBP(self, x):
+    def LBP(self):
         r"""
 
         x : {0,1} random matrix
         """
-        message_to = -np.ones(x.shape + (4, 2,)) # message to i,j
-        message_from = -np.ones(x.shape + (4, 2,)) # message from i,j
+        message_to = -np.ones(self.noisy_image.shape + (4, 2,)) # message to i,j
+        message_from = -np.ones(self.noisy_image.shape + (4, 2,)) # message from i,j
         op = [(0, 1), (0, -1), (-1, 0), (1, 0)]
-        for i in range(x.shape[0]):
-            for j in range(x.shape[1]):
+        for i in range(self.noisy_image.shape[0]):
+            for j in range(self.noisy_image.shape[1]):
                 count = 0
                 for ii, jj in op:
-                    message_to[i, j, count, :] = self.message(x, (i+ii, j+jj), (i, j), message_to, type = 'b')
-                    message_from[i, j, count, :] = self.message(x, (i, j), (i+ii, j+jj), message_from)
+                    message_to[i, j, count, :] = self.message((i+ii, j+jj), (i, j), message_to, type = 'b')
+                    # message_from[i, j, count, :] = self.message((i, j), (i+ii, j+jj), message_from)
                     count += 1
 
         return message_to, message_from
 
 
-    def segment(self, x):
+    def segment(self):
         r"""
         """
         while True:
-            message_to, message_from = self.LBP(x)
+            message_to, message_from = self.LBP()
             message = np.prod(message_to, axis=2)
-            x = np.argmax(message, axis=-1)
-            yield x
+            self.noisy_image = np.argmax(message, axis=-1)
+            yield self.noisy_image
                 
 
 
 if __name__ == '__main__':
     import matplotlib.pyplot as plt
 
-    local_distribution = {(1,1): 0.0, 
-                          (0,0): 1,
-                          (1,0): 1,
-                          (0,1): 1}
-    gs = GibbsSampler(local_distribution, 10, 24, 24)
-    
-    epochs = 10
-    for i in range(epochs):
-        x = next(gs.sampler())
-        plt.clf()
-        plt.imshow(x)
-        plt.show()
+    theta = 0.2; phi=0.5
 
+    edge_potential = np.array([[1+theta, 1-theta],
+                                [1-theta, 1+theta]])
+    node_potential = np.array([[1+phi, 1-phi],
+                                [1-phi, 1+phi]]) 
+
+    input_image = np.zeros((12,12)).astype('int')
+    input_image[5:9, 5:9] = 1
+
+    noisy_image = np.random.randint(0,2, size=(12,12))
+    noisy_image = input_image*noisy_image.astype('int')
+    
+    lbpsegmentor = loopyBPSegmentation(edge_potential, 
+                    node_potential, 
+                    input_image, 
+                    noisy_image)
+
+    epochs = 10
+    plt.ion()
+    x = noisy_image
+    for i in range(epochs):
         plt.clf()
-        plt.plot(gs.count_seq)
-        plt.xlabel("mixture progression")
-        plt.ylabel("count")
-        # plt.title("Epoch: {}".format(i))
-        plt.show()
+        plt.subplot(1, 2, 1)
+        plt.imshow(input_image)
+        plt.subplot(1, 2, 2)
+        plt.imshow(x)
+        plt.pause(0.5)
+        x = next(lbpsegmentor.segment())
