@@ -1,10 +1,11 @@
 import numpy as np
-
+import sys
+sys.setrecursionlimit(10**6)
 
 class loopyBPSegmentation(object):
     """
     """
-    def __init__(self, edge_potential, node_potential, input_image, noisy_image):
+    def __init__(self, edge_potential, node_potential, input_image, noisy_image, normed=True):
         """
         """
         self.edge_potential = edge_potential
@@ -13,6 +14,8 @@ class loopyBPSegmentation(object):
         # noise free
         self.input_image    = input_image
         self.noisy_image    = noisy_image
+
+        self.normed = normed
 
     def mu(self, ii, jj, visited, mu):
         """
@@ -47,34 +50,41 @@ class loopyBPSegmentation(object):
         if (jj[0]  >= self.noisy_image.shape[0]) or (ii[1] >= self.noisy_image.shape[1]) or \
            (ii[0]  >= self.noisy_image.shape[0]) or (jj[1] >= self.noisy_image.shape[1]) or \
            (ii[0] < 0) or (jj[0]  < 0) or (ii[1] < 0) or (jj[1]  < 0):
-            return 1.0
+            return np.ones_like(message_matrix)*0.5
 
         op = [(0, 1), (0, -1), (-1, 0), (1, 0)]
-        idx_tuple = tuple([jj[0]-ii[0], jj[1] - ii[1]])
+        idx_tuple = tuple([jj[0]-ii[0], jj[1] - ii[1]]) if type=='f' else tuple([ii[0]-jj[0], ii[1] - jj[1]])
         for i, _op in enumerate(op):
             if idx_tuple == _op:
                 idx = i
                 break
 
-        if message_matrix[ii[0], ii[1], idx, 0] >= 0:
-            return message_matrix[ii[0], ii[1], idx, :]
+        if np.sum(message_matrix[ii[0], ii[1], idx, :]) >= 1.0:
+            return message_matrix
 
         nbrs = [(ii[0], ii[1]+1), (ii[0], ii[1]-1), (ii[0]-1, ii[1]), (ii[0]+1, ii[1])]
         nbrs = [nbr for nbr in nbrs if not (nbr == jj)]
 
-        message = np.array([1., 1.])
+        message = np.array([.5, .5])
+        message_matrix[ii[0], ii[1], idx, :] = message
         for nbr in nbrs:
-            message_matrix[ii[0], ii[1], idx, :] = message*self.message(nbr, ii, message_matrix)
+            message_matrix[ii[0], ii[1], idx, :] *= self.message(nbr, ii, message_matrix)[ii[0], ii[1], idx, :]
+            
 
+        message = message_matrix[ii[0], ii[1], idx, :]
         if type == 'f':
-            message0 = self.node_potential[self.noisy_image[jj[0], jj[1]], self.input_image[jj[0], jj[1]]]*\
+            message0 = self.node_potential[0, self.noisy_image[jj[0], jj[1]]]*\
                     (message[0]*self.edge_potential[0, 0] + message[1]*self.edge_potential[1, 0])
-            message1 = self.node_potential[self.noisy_image[jj[0], jj[1]], self.input_image[jj[0], jj[1]]]*\
+            message1 = self.node_potential[1, self.noisy_image[jj[0], jj[1]]]*\
                     (message[0]*self.edge_potential[0, 1] + message[1]*self.edge_potential[1, 1])
-            message_matrix[ii[0], ii[1], idx, :]  = np.array([message0, message1])
-            print (message_matrix[ii[0], ii[1], idx, :])
+            message = np.array([message0, message1])
 
-        return message_matrix[ii[0], ii[1], idx, :]
+            if self.normed: message /= np.sum(message)
+            message_matrix[ii[0], ii[1], idx, :]  = message
+
+            print (message)
+        return message_matrix
+
 
     def LBP(self):
         r"""
@@ -88,9 +98,10 @@ class loopyBPSegmentation(object):
             for j in range(self.noisy_image.shape[1]):
                 count = 0
                 for ii, jj in op:
-                    message_to[i, j, count, :] = self.message((i+ii, j+jj), (i, j), message_to, type = 'b')
-                    # message_from[i, j, count, :] = self.message((i, j), (i+ii, j+jj), message_from)
+                    message_to = self.message((i+ii, j+jj), (i, j), message_from, type = 'b')
+                    message_from = self.message((i, j), (i+ii, j+jj), message_to)
                     count += 1
+                print ("======={}{}=====".format(i,j))
 
         return message_to, message_from
 
@@ -109,17 +120,17 @@ class loopyBPSegmentation(object):
 if __name__ == '__main__':
     import matplotlib.pyplot as plt
 
-    theta = 0.2; phi=0.5
+    theta = 0.8; phi=0.2
 
     edge_potential = np.array([[1+theta, 1-theta],
                                 [1-theta, 1+theta]])
     node_potential = np.array([[1+phi, 1-phi],
                                 [1-phi, 1+phi]]) 
 
-    input_image = np.zeros((12,12)).astype('int')
-    input_image[5:9, 5:9] = 1
+    input_image = np.zeros((25,25)).astype('int')
+    input_image[8:17, 8:17] = 1
 
-    noisy_image = np.random.randint(0,2, size=(12,12))
+    noisy_image = np.random.randint(0,2, size=(25,25))
     noisy_image = input_image*noisy_image.astype('int')
     
     lbpsegmentor = loopyBPSegmentation(edge_potential, 
@@ -136,5 +147,5 @@ if __name__ == '__main__':
         plt.imshow(input_image)
         plt.subplot(1, 2, 2)
         plt.imshow(x)
-        plt.pause(0.5)
+        plt.pause(1)
         x = next(lbpsegmentor.segment())
