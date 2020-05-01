@@ -10,7 +10,7 @@ rootNode.set_distribution()
 
 
 graph = Graph(rootNode)
-graph.add_node('node1', 'rootNode')
+graph.add_node('node1', ['rootNode'])
 graph.print(rootNode)
 
 node1 = graph.get_node('node1')

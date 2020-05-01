@@ -7,8 +7,8 @@ from pgm.representation.LinkedListBN import Graph
 rootNode = Node('rootNode')
 
 graph = Graph(rootNode)
-graph.add_node('node1', 'rootNode')
-graph.add_node('node2', 'rootNode')
-graph.add_node('node3', 'node1')
-graph.add_edge('node2', 'node3')
+graph.add_node('node1', ['rootNode'])
+graph.add_node('node2', ['rootNode'])
+graph.add_node('node3', ['node1', 'node2'])
+graph.add_edge('rootNode', 'node3')
 graph.print(rootNode)
