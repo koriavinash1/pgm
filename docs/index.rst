@@ -37,7 +37,7 @@ Check examples to understand all routines
 
 
 Representation
-==============
+--------------
 
 1. LinkedList BN representation
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -93,7 +93,10 @@ Representation
 Set conditional distribution per node:
 
 In case of BN 
-.. math::`\mathbb{P}(node~|~Par_{node})`
+.. math::
+
+    \mathbb{P}(node~|~Par_{node})
+
 
 .. code:: python
 
@@ -117,7 +120,10 @@ In case of BN
 
 
 In case of MN
-.. math::`\mathbb{P}(node~|~Nbr_{node})`
+.. math::
+
+    \mathbb{P}(node~|~Nbr_{node})
+
 
 It's very similar to the example of BN showen above
 
@@ -141,7 +147,8 @@ It's very similar to the example of BN showen above
 
 
 4. Caculate Conditional
-~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~
+
 .. math::
     
     \mathbb{P}(nodeB ~|~nodeA) = \frac{mathbb{P}(nodeB, nodeA)}{nodeA}
@@ -151,6 +158,7 @@ Not Implemented yet
 
 5. Caculate Marginal
 ~~~~~~~~~~~~~~~~~~~~
+
 .. math::
     
     \mathbb{P}(nodeB ~|~somenodes) = \sum_{nodeA}\mathbb{P}(nodeA, nodeB ~|~somenodes)
@@ -160,10 +168,11 @@ Not Implemented yet
 
 
 Inference
-=========
+---------
 
 1. MH: Metropolis Hastings
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
+
 .. code:: python
 
     from pgm.inference.MetropolisHastings import MH
@@ -216,14 +225,15 @@ Inference
 
 
 Learning
-========
+--------
 
 
 Helpers
-=======
+-------
 
 1. Search dfs
 ~~~~~~~~~~
+
 .. code:: python
 
     from pgm.helpers.search import dfs
@@ -235,6 +245,7 @@ Helpers
 
 2. GetTrails for BN
 ~~~~~~~~~~~~~~~~
+
 .. code:: python
 
     from pgm.helpers.common import Node
@@ -259,6 +270,7 @@ Helpers
 
 3. Random Graphs
 ~~~~~~~~~~~~~~~~
+
 .. code:: python
 
     from pgm.helpers.misc import GenerateRandomGraph
