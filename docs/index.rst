@@ -23,28 +23,19 @@ Usage
 =====
 Check examples to understand all routines
 
-LinkedList BN representation
-============================
 
-```
-from pgm.helpers.common import Node
-from pgm.representation.LinkedListBN import Graph
+Installation
+------------
 
-rootNode = Node('rootNode')
+This package is available on the PyPi repository. Therefore you can
+install, by running the following.
 
-graph = Graph(rootNode)
-graph.add_node('node1', 'rootNode')
-graph.add_node('node2', 'rootNode')
-graph.add_node('node3', 'node1')
-graph.add_edge('node2', 'node3')
-graph.print(rootNode)
+.. code:: bash
 
-# =============== OUTPUT ===============
-node: rootNode, children: ['node1', 'node2'], parents: []
-node: node1, children: ['node3'], parents: ['rootNode']
-node: node2, children: ['node3'], parents: ['rootNode']
-node: node3, children: [], parents: ['node1', 'node2']
-```
+   pip3 install ppgm
+
+
+
 
 
 Search dfs

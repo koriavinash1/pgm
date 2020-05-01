@@ -27,6 +27,7 @@ class GenerateRandomGraph(object):
 		else : raise ValueError("Invalid type argument. Allowed values ['BN', 'MN']")
 
 		self.create_graph()
+		self.generate_distribution()
 
 
 	def create_graph(self):
@@ -43,3 +44,12 @@ class GenerateRandomGraph(object):
 			self.Graph.add_node(node_name, 
 								nodes)
 			self.current_nodes.append(node_name)
+
+	def generate_distribution(self):
+		r""" Generates random conditional distribution
+		"""
+		for node in self.current_nodes:
+			node = self.Graph.get_node(node)
+			node.values = [0, 1]
+			node.set_distribution()
+		pass

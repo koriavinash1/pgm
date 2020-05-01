@@ -60,24 +60,29 @@ class Node(object):
             if len(self.parents) == 0:
                 self.localDistribution = self.check("CurrentNode: {} | nodeValue: {} | Probability= ")
               
-            parent_names = [node.name for node in self.parents]
+            # parent_names = [node.name for node in self.parents]
             parent_values = []
+            parent_names = []
 
-            def _value_tuple(i, j, tuple):
+            def _value_tuple(i, j, value_tuple, name_tuple):
                 if i >= len(self.parents):
-                    return tuple
+                    return value_tuple, name_tuple
 
                 pnode = self.parents[i]
                 for jj in range(j, len(pnode.values)):
-                    tuple = tuple + (pnode.values[jj], )
-                    tuple = _value_tuple(i+1, j+jj, tuple)
-                    parent_values.append(tuple)
-                    tuple = ()
+                    value_tuple = value_tuple + (pnode.values[jj], )
+                    name_tuple  = name_tuple + (pnode.name, )
+                    value_tuple, name_tuple = _value_tuple(i+1, j+jj, value_tuple, name_tuple)
+                    parent_values.append(value_tuple)
+                    parent_names.append(name_tuple)
 
+                    value_tuple = ()
+                    name_tuple  = ()
+                return value_tuple, name_tuple
 
-                return tuple
-
-            _value_tuple(0, 0, ())
+            _value_tuple(0, 0, (), ())
+            parent_names = list(set(parent_names))
+            parent_values = list(set(parent_values))
 
             for pnodes in parent_names:
                 for pvalues in parent_values:
