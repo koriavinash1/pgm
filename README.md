@@ -1,5 +1,6 @@
 # PGM
 [![Build Status](https://travis-ci.org/koriavinash1/pgm.svg?branch=master)](https://travis-ci.org/koriavinash1/pgm)
+[![Read the Docs](https://readthedocs.org/projects/pgm/badge/?version=latest)](https://pgm.readthedocs.io/en/latest/?badge=latest)
 [![PyPI version](https://badge.fury.io/py/ppgm.svg)](https://badge.fury.io/py/ppgm)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
