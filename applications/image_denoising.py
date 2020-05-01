@@ -1,6 +1,4 @@
 import numpy as np
-import sys, cv2
-sys.setrecursionlimit(10**6)
 
 class loopyBPDenoising(object):
     r"""
@@ -115,7 +113,7 @@ if __name__ == '__main__':
 
 
     size = 100
-    flip_prob = 0.3
+    flip_prob = 0.2
     radius = 25
     center = (50, 50)
     input_image = np.zeros((size, size), dtype='uint8')
@@ -129,21 +127,34 @@ if __name__ == '__main__':
     noisy_image = input_image.copy()
     noisy_image[noise<flip_prob] = 1-noisy_image[noise<flip_prob]
 
-    
-    lbpsegmentor = loopyBPDenoising(edge_potential, 
-                    node_potential, 
-                    input_image, 
-                    noisy_image)
+    count = []
+    for _ in range(25):
+        lbpsegmentor = loopyBPDenoising(edge_potential, 
+                        node_potential, 
+                        input_image, 
+                        noisy_image)
 
-    epochs = 6
-    plt.ion()
-    x = noisy_image
-    for i in range(epochs):
-        plt.clf()
-        plt.subplot(1, 2, 1)
-        plt.imshow(input_image)
-        plt.subplot(1, 2, 2)
-        plt.imshow(x)
-        plt.title(str(i) + "  " + str(np.sum(input_image == x)))
-        plt.pause(1)
-        x = next(lbpsegmentor.LBP())
+        epochs = 1
+        x = noisy_image
+        for i in range(epochs):
+            x = next(lbpsegmentor.LBP())
+
+        count.append(np.sum(x == input_image))
+
+    plt.subplot(1, 3, 1)
+    plt.imshow(input_image)
+    plt.xticks([],'')
+    plt.yticks([],'')
+    plt.xlabel("Noise free image")
+    plt.subplot(1, 3, 2)
+    plt.imshow(noisy_image)
+    plt.xticks([],'')
+    plt.yticks([],'')
+    plt.xlabel("Noisy image")
+    plt.subplot(1, 3, 3)
+    plt.imshow(x)
+    plt.xticks([],'')
+    plt.yticks([],'')
+    plt.xlabel("Denoised image")
+    plt.title(str(np.mean(count)))
+    plt.show()
