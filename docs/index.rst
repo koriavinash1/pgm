@@ -93,6 +93,7 @@ Representation
 Set conditional distribution per node:
 
 In case of BN 
+
 .. math::
 
     \mathbb{P}(node~|~Par_{node})
@@ -120,6 +121,7 @@ In case of BN
 
 
 In case of MN
+
 .. math::
 
     \mathbb{P}(node~|~Nbr_{node})
