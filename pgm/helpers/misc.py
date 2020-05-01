@@ -27,7 +27,7 @@ class GenerateRandomGraph(object):
 		else : raise ValueError("Invalid type argument. Allowed values ['BN', 'MN']")
 
 		self.create_graph()
-		self.generate_distribution()
+		if not self.skeleton_only: self.generate_distribution()
 
 
 	def create_graph(self):
