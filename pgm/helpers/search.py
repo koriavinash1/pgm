@@ -64,7 +64,7 @@ class dfs(object):
 
 class bfs(object):
     """
-        This class implements breath first search algorithm
+        This class implements breadth first search algorithm
         is used to search for specific node given rootnode
     """
     def __init__(self, root, nodeName, type='BN'):
