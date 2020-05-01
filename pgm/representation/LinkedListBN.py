@@ -23,23 +23,26 @@ class Graph(object):
             raise ValueError("Invalid type for root argument")
 
 
-    def add_node(self, node, parentNode):
+    def add_node(self, node, parentNodes):
         r""" adds node in the graph 
         
         node: can be ['int', 'str'] or Node object
-        parentNode: can be ['int', 'str'] or Node object
+        parentNodes: can be ['int', 'str'] or Node object
         """
+        node = Node(node)
+        for parentNode in parentNodes:
+            if not isinstance(parentNode, Node):
+                parentNode = dfs(self.rootNode, parentNode).searchNode
+            if parentNode == -1:
+                raise ValueError("parentNode not found")
 
-        if not isinstance(parentNode, Node):
-            parentNode = dfs(self.rootNode, parentNode).searchNode
+            if not isinstance(node, Node):
+                node = Node(node)
 
-        if parentNode == -1:
-            raise ValueError("parentNode not found")
+            node.parents.append(parentNode)
+            parentNode.children.append(node)
 
-        if not isinstance(node, Node):
-            node = Node(node)
-        node.parents.append(parentNode)
-        parentNode.children.append(node)
+
 
 
     def add_edge(self, node1, node2):
