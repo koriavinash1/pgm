@@ -19,9 +19,9 @@ Probabilistic graphs: Representation, Learning, and Inference
   - [x] Metropolis-Hastings algorithm
   - [x] Gibbs Sampling on 2d grid
   - [ ] Generalized Gibbs Sampling
-  - [ ] Message Parsing and BP
-  - [ ] Loopy BP
-  - [ ] VE
+  - [x] Message Parsing and BP
+  - [x] Loopy BP
+  - [x] VE
   - [ ] Causal Interventions
 - [x] search methods
   - [x] DFS
