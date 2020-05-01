@@ -151,7 +151,7 @@ It's very similar to the example of BN showen above
 
 .. math::
     
-    \mathbb{P}(nodeB ~|~nodeA) = \frac{mathbb{P}(nodeB, nodeA)}{nodeA}
+    \mathbb{P}(nodeB ~|~nodeA) = \frac{\mathbb{P}(nodeB, nodeA)}{nodeA}
 
 Not Implemented yet
 

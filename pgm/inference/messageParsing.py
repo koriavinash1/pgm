@@ -15,12 +15,12 @@ class MessageParsing(object):
         type : 'BN' or 'MN'
         """
         self.type = type
-        if isinstance(root, Node):
-            self.rootNode = root
+        if isinstance(rootNode, Node):
+            self.rootNode = rootNode
 
     def parse_message(self, node1, node2):
         r""" Caclulates the message from node1 -> node2
-        message_{node1->node2} = 
+        m_{node1->node2} = 
             \sum_{node1} \phi(node1)\phi(node1, node2)
                 \prod_{pa \in parents_{node1}} message_{pa->node1}
 
