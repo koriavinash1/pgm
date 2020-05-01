@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 #
-# PGM documentation build configuration file, created by
-# sphinx-quickstart on Fri May  1 10:40:32 2020.
+# Probabilistic Graphical Models documentation build configuration file, created by
+# sphinx-quickstart on Fri May  1 10:51:06 2020.
 #
 # This file is execfile()d with the current directory set to its
 # containing dir.
@@ -31,12 +31,7 @@
 # extensions coming with Sphinx (named 'sphinx.ext.*') or your custom
 # ones.
 extensions = ['sphinx.ext.autodoc',
-    'sphinx.ext.intersphinx',
-    'sphinx.ext.todo',
-    'sphinx.ext.coverage',
-    'sphinx.ext.mathjax',
-    'sphinx.ext.ifconfig',
-    'sphinx.ext.viewcode',
+    'sphinx.ext.doctest',
     'sphinx.ext.githubpages']
 
 # Add any paths that contain templates here, relative to this directory.
@@ -52,7 +47,7 @@ source_suffix = '.rst'
 master_doc = 'index'
 
 # General information about the project.
-project = u'PGM'
+project = u'Probabilistic Graphical Models'
 copyright = u'2020, Avinash Kori'
 author = u'Avinash Kori'
 
@@ -75,13 +70,13 @@ language = None
 # List of patterns, relative to source directory, that match files and
 # directories to ignore when looking for source files.
 # This patterns also effect to html_static_path and html_extra_path
-exclude_patterns = []
+exclude_patterns = ['_build', 'Thumbs.db', '.DS_Store']
 
 # The name of the Pygments (syntax highlighting) style to use.
 pygments_style = 'sphinx'
 
 # If true, `todo` and `todoList` produce output, else they produce nothing.
-todo_include_todos = True
+todo_include_todos = False
 
 
 # -- Options for HTML output ----------------------------------------------
@@ -118,7 +113,7 @@ html_sidebars = {
 # -- Options for HTMLHelp output ------------------------------------------
 
 # Output file base name for HTML help builder.
-htmlhelp_basename = 'PGMdoc'
+htmlhelp_basename = 'ProbabilisticGraphicalModelsdoc'
 
 
 # -- Options for LaTeX output ---------------------------------------------
@@ -145,7 +140,7 @@ latex_elements = {
 # (source start file, target name, title,
 #  author, documentclass [howto, manual, or own class]).
 latex_documents = [
-    (master_doc, 'PGM.tex', u'PGM Documentation',
+    (master_doc, 'ProbabilisticGraphicalModels.tex', u'Probabilistic Graphical Models Documentation',
      u'Avinash Kori', 'manual'),
 ]
 
@@ -155,7 +150,7 @@ latex_documents = [
 # One entry per manual page. List of tuples
 # (source start file, name, description, authors, manual section).
 man_pages = [
-    (master_doc, 'pgm', u'PGM Documentation',
+    (master_doc, 'probabilisticgraphicalmodels', u'Probabilistic Graphical Models Documentation',
      [author], 1)
 ]
 
@@ -166,34 +161,10 @@ man_pages = [
 # (source start file, target name, title, author,
 #  dir menu entry, description, category)
 texinfo_documents = [
-    (master_doc, 'PGM', u'PGM Documentation',
-     author, 'PGM', 'One line description of project.',
+    (master_doc, 'ProbabilisticGraphicalModels', u'Probabilistic Graphical Models Documentation',
+     author, 'ProbabilisticGraphicalModels', 'One line description of project.',
      'Miscellaneous'),
 ]
 
 
 
-# -- Options for Epub output ----------------------------------------------
-
-# Bibliographic Dublin Core info.
-epub_title = project
-epub_author = author
-epub_publisher = author
-epub_copyright = copyright
-
-# The unique identifier of the text. This can be a ISBN number
-# or the project homepage.
-#
-# epub_identifier = ''
-
-# A unique identification for the text.
-#
-# epub_uid = ''
-
-# A list of files that should not be packed into the epub file.
-epub_exclude_files = ['search.html']
-
-
-
-# Example configuration for intersphinx: refer to the Python standard library.
-intersphinx_mapping = {'https://docs.python.org/': None}
