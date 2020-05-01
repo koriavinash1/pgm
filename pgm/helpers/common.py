@@ -39,7 +39,7 @@ class Node(object):
         return temp
 
 
-    def set_distribution_BN(self, probabilities = None):
+    def _set_distribution_BN_(self, probabilities = None):
         r""" sets a local probabilities distribution
         
         probabilities: json, None
@@ -89,7 +89,7 @@ class Node(object):
                     self.localDistribution[(pnodes, pvalues)] = self.check("CurrentNode: {} | nodeValue: {} || ParentNodes: {} = ParentValues: {} | Probability = ", [pnodes, pvalues])
 
 
-    def set_distribution_MN(self, probabilities = None):
+    def _set_distribution_MN_(self, probabilities = None):
         r""" sets a local probabilities distribution
         
         probabilities: json, None
@@ -143,6 +143,6 @@ class Node(object):
         """
 
         if self.type == 'MN':
-            self.set_distribution_MN(probabilities)
+            self._set_distribution_MN_(probabilities)
         else:
-            self.set_distribution_BN(probabilities)
+            self._set_distribution_BN_(probabilities)
