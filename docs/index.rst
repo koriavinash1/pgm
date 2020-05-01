@@ -43,6 +43,7 @@ Representation
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 .. code:: python
+
     from pgm.helpers.common import Node
     from pgm.representation.LinkedListBN import Graph
 
@@ -66,6 +67,7 @@ Representation
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 .. code:: python
+
     from pgm.helpers.common import Node
     from pgm.representation.LinkedListMN import Graph
 
@@ -94,6 +96,7 @@ In case of BN
 .. math::`\mathbb{P}(node~|~Par_{node})`
 
 .. code:: python
+
     from pgm.helpers.common import Node
     from pgm.representation.LinkedListBN import Graph
 
@@ -119,6 +122,7 @@ In case of MN
 It's very similar to the example of BN showen above
 
 .. code:: python
+
     from pgm.helpers.common import Node
     from pgm.representation.LinkedListMN import Graph
 
@@ -138,14 +142,19 @@ It's very similar to the example of BN showen above
 
 4. Caculate Conditional
 ~~~~~~~~~~~~~~~~~~~~
-.. math::`\mathbb{P}(nodeB ~|~nodeA) = \frac{mathbb{P}(nodeB, nodeA)}{nodeA}`
+.. math::
+    
+    \mathbb{P}(nodeB ~|~nodeA) = \frac{mathbb{P}(nodeB, nodeA)}{nodeA}
 
 Not Implemented yet
 
 
 5. Caculate Marginal
 ~~~~~~~~~~~~~~~~~~~~
-.. math::`\mathbb{P}(nodeB ~|~somenodes) = \sum_{nodeA}\mathbb{P}(nodeA, nodeB ~|~somenodes)`
+.. math::
+    
+    \mathbb{P}(nodeB ~|~somenodes) = \sum_{nodeA}\mathbb{P}(nodeA, nodeB ~|~somenodes)
+
 
 Not Implemented yet
 
@@ -155,7 +164,8 @@ Inference
 
 1. MH: Metropolis Hastings
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
-..code:: python
+.. code:: python
+
     from pgm.inference.MetropolisHastings import MH
     from matplotlib import pyplot as plt
 
@@ -214,7 +224,8 @@ Helpers
 
 1. Search dfs
 ~~~~~~~~~~
-..code:: python
+.. code:: python
+
     from pgm.helpers.search import dfs
 
     root = rootNode
@@ -224,7 +235,8 @@ Helpers
 
 2. GetTrails for BN
 ~~~~~~~~~~~~~~~~
-..code:: python
+.. code:: python
+
     from pgm.helpers.common import Node
     from pgm.representation.LinkedListBN import Graph
     from pgm.helpers.trails import findTrails
@@ -244,9 +256,11 @@ Helpers
     # =============== OUTPUT ===============
     [['rootNode', 'node1', 'node3'], ['rootNode', 'node2', 'node3']]
 
+
 3. Random Graphs
 ~~~~~~~~~~~~~~~~
-..code:: python
+.. code:: python
+
     from pgm.helpers.misc import GenerateRandomGraph
 
     graph = GenerateRandomGraph(10, type='BN', skeleton_only=True).Graph
@@ -263,4 +277,3 @@ Helpers
     node: node3, children: ['node4', 'node5', 'node5'], parents: ['node2']
     node: node6, children: [], parents: ['node2']
     node: node9, children: [], parents: ['node2', 'node2']
-
