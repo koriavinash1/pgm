@@ -232,19 +232,34 @@ Helpers
 -------
 
 1. Search dfs
-~~~~~~~~~~
+~~~~~~~~~~~~~
+
+Use type='MN' for Markov Networks
 
 .. code:: python
 
     from pgm.helpers.search import dfs
 
     root = rootNode
-    searchNode = 'node4'
-    node = dfs(root, searchNode).searchNode
+    searchNode = 'node2'
+    node = dfs(root, searchNode, type='BN').searchNode
+
+2. Search bfs
+~~~~~~~~~~~~~
+
+Use type='MN' for Markov Networks
+
+.. code:: python
+
+    from pgm.helpers.search import bfs
+
+    root = rootNode
+    searchNode = 'node2'
+    node = bfs(root, searchNode, type='BN').searchNode
 
 
 2. GetTrails for BN
-~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~
 
 .. code:: python
 
@@ -261,7 +276,7 @@ Helpers
     graph.add_edge('node2', 'node3')
 
 
-    ftrails = findTrails(rootNode, 'rootNode', 'node3')
+    ftrails = findTrails(rootNode, 'rootNode', 'node3', type='BN')
     ftrails.print()
 
     # =============== OUTPUT ===============
