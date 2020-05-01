@@ -30,7 +30,9 @@ Probabilistic graphs: Representation, Learning, and Inference
   - [ ] Max clique size and clique node
   - [ ] Calculate tree-width
 - [ ] Learning 
-
+- [x] Miscellaneous
+  - [x] Random BN and MN generation
+ 
 ## Installation
 ```
 pip install ppgm
