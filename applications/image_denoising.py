@@ -128,13 +128,16 @@ if __name__ == '__main__':
     noisy_image[noise<flip_prob] = 1-noisy_image[noise<flip_prob]
 
     count = []
-    for _ in range(25):
+  
+    # for expectation
+    nruns = 4
+    for _ in range(nruns):
         lbpsegmentor = loopyBPDenoising(edge_potential, 
                         node_potential, 
                         input_image, 
                         noisy_image)
 
-        epochs = 1
+        epochs = 5
         x = noisy_image
         for i in range(epochs):
             x = next(lbpsegmentor.LBP())

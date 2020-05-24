@@ -24,7 +24,7 @@ class Node(object):
 
 
 
-    def check(self, string, args=[]):
+    def _check_(self, string, args=[]):
         r""" Checks for sum of the distribution"""
 
         temp = {}

@@ -126,7 +126,7 @@ class Graph(object):
 
         if (node == -1):
             raise ValueError("Node doesn't exist")
-
+        self.current_node = node
         return node 
 
     def calculate_conditional(self, nodes, values):

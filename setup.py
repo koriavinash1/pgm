@@ -4,7 +4,7 @@ with open("README.md", "r") as fh:
     long_description = fh.read()
 setuptools.setup(
      name='ppgm',  
-     version='0.0.1',
+     version='0.0.3',
      author="Avinash Kori",
      author_email="koriavinash1@gmail.com",
      description="Graphical model analysis toolbox.",
