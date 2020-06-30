@@ -129,6 +129,35 @@ class Graph(object):
         self.current_node = node
         return node 
 
+
+    def get_leafnodes(self, return_obj = True):
+        r""" finds all leaf nodes in the graph
+
+        return_obj: bool if true returns list of node object 
+                    else returns list of string (node names)
+        """
+        leafnodes = []
+
+        def _recursive_(root):
+            if len(root.children) == 0:
+                return root
+            
+            for childNode in root.children:
+                node = _recursive_(childNode)
+                if (not (node == None)) and (not (node in leafnodes)):
+                    leafnodes.append(node)
+            pass 
+        _recursive_(self.rootNode)
+
+        if return_obj:
+            return leafnodes
+        else:
+            names = []
+            for node in leafnodes:
+                names.append(node.name)
+            return np.array(names)
+       
+
     def calculate_conditional(self, nodes, values):
         r""" calculates conditional distribution fixing the
         values of given nodes
